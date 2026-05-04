@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Technology Partnership Intelligence — Consultadd Public Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --navy:#0D2B5E;--navy2:#1A3D7C;--navy3:#2E5499;--navy4:#4472C4;
+  --blue-light:#EBF1FB;--blue-mid:#C2D3F2;--blue-pale:#F0F5FF;
+  --white:#fff;--bg:#F0F4FA;--surf:#fff;--surf2:#F7F9FF;
+  --border:#DDE4F0;--border2:#C5D0E8;
+  --txt:#0F1729;--txt2:#344060;--txt3:#6B7A99;--txt4:#A8B4CC;
+  --green:#057A50;--green2:#0AA870;--green-bg:#EDFAF5;--green-bd:#9FE2C8;
+  --orange:#C96A00;--orange2:#E88A00;--orange-bg:#FFF8ED;--orange-bd:#F5C878;
+  --red:#B91C1C;--red2:#DC2626;--red-bg:#FEF2F2;--red-bd:#F5AAAA;
+  --purple:#5B21B6;--purple-bg:#F5F3FF;--purple-bd:#C4B5FD;
+  --gray:#6B7280;--gray-bg:#F8F9FB;--gray-bd:#DDE4F0;
+  --gold:#C07D00;--gold-bg:#FFFAEB;--gold-bd:#F0D080;
+  --sw:236px;--hh:58px;
+  --r:8px;--r2:12px;--r3:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--txt);font-size:13px;line-height:1.5}
+a{color:var(--navy4);text-decoration:none}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sw);background:var(--navy);
+  position:fixed;top:0;left:0;height:100vh;z-index:200;
+  display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06);
+}
+.sb-brand{
+  padding:14px 18px 12px;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;gap:10px;min-height:var(--hh);
+}
+.sb-logo-wrap{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+.sb-logo{height:22px;filter:brightness(0) invert(1);flex-shrink:0}
+.sb-brandlabel{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.05em;text-transform:uppercase;line-height:1.3}
+.admin-pill{background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.35);color:#FFD700;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.viewer-pill{background:rgba(100,180,255,.18);border:1px solid rgba(100,180,255,.3);color:#7EC8FF;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.04em;white-space:nowrap;flex-shrink:0}
+.sb-nav{flex:1;padding:8px 0;overflow-y:auto}
+.sb-group{padding:10px 16px 3px;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.sb-item{
+  display:flex;align-items:center;gap:9px;padding:9px 16px;
+  cursor:pointer;font-size:12.5px;font-weight:500;
+  color:rgba(255,255,255,.6);border-left:3px solid transparent;margin:1px 0;
+  transition:color .1s,background .1s,border-color .1s;
+}
+.sb-item:hover{background:rgba(255,255,255,.07);color:#fff}
+.sb-item.active{background:rgba(255,255,255,.1);color:#fff;border-left-color:#7EB6FF}
+.sb-item .ic{font-size:14px;width:17px;text-align:center;flex-shrink:0;opacity:.8}
+.sb-badge{margin-left:auto;font-size:9.5px;font-weight:700;padding:1px 7px;border-radius:10px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+.sb-badge.hot{background:#B91C1C;color:#fff}
+.sb-badge.warn{background:#C96A00;color:#fff}
+.sb-foot{padding:11px 16px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:rgba(255,255,255,.28);line-height:1.6}
+.sb-foot strong{color:rgba(255,255,255,.45)}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-width:0}
+.topbar{
+  background:var(--surf);border-bottom:1px solid var(--border);
+  padding:0 22px;height:var(--hh);display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:100;gap:10px;
+}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.page-label{font-size:15px;font-weight:700;color:var(--navy)}
+.topbar-right{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.tb-chip{display:flex;align-items:center;gap:5px;background:var(--surf2);border:1px solid var(--border);border-radius:20px;padding:4px 11px;font-size:11.5px;color:var(--txt2)}
+.tb-chip strong{font-weight:700}
+.tb-chip.g strong{color:var(--green)}
+.tb-chip.o strong{color:var(--orange)}
+.tb-chip.r strong{color:var(--red)}
+.tb-divider{width:1px;height:18px;background:var(--border)}
+.ts-label{font-size:10.5px;color:var(--txt4)}
+.btn-primary{background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .1s;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.btn-primary:hover{background:var(--navy2)}
+.btn-primary:disabled{opacity:.4;cursor:default}
+.btn-logout{background:rgba(185,28,28,.08);border:1px solid rgba(185,28,28,.2);color:var(--red);border-radius:var(--r);padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-logout:hover{background:var(--red-bg)}
+
+/* CONTENT */
+.content{padding:20px 22px;flex:1}
+.sec{display:none}.sec.active{display:block}
+.pg-hd{margin-bottom:18px}
+.pg-hd h2{font-size:18px;font-weight:700;color:var(--navy)}
+.pg-hd p{font-size:12px;color:var(--txt3);margin-top:3px}
+
+/* ── LOGIN SCREEN ── */
+.login-screen{
+  position:fixed;inset:0;background:var(--navy);z-index:999;
+  display:flex;align-items:center;justify-content:center;
+}
+.login-box{background:var(--surf);border-radius:var(--r3);width:400px;padding:36px 32px;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.login-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.login-logo{height:28px}
+.login-brand{font-size:12px;font-weight:700;color:var(--txt3);letter-spacing:.05em;text-transform:uppercase}
+.login-title{font-size:20px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--txt3);text-align:center;margin-bottom:24px}
+.login-frow{margin-bottom:14px}
+.login-frow label{display:block;font-size:11px;font-weight:600;color:var(--txt2);margin-bottom:5px;letter-spacing:.02em}
+.login-inp{width:100%;border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;font-size:13px;font-family:inherit;color:var(--txt);background:var(--surf2);outline:none;transition:border .12s}
+.login-inp:focus{border-color:var(--navy3);background:#fff}
+.login-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;transition:background .12s}
+.login-btn:hover{background:var(--navy2)}
+.login-err{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--red);margin-top:12px;display:none}
+.login-viewer-link{text-align:center;margin-top:16px;font-size:12px;color:var(--txt3)}
+.login-viewer-link a{color:var(--navy4);cursor:pointer;font-weight:500}
+.login-viewer-link a:hover{text-decoration:underline}
+.login-badge{background:var(--blue-light);border-radius:var(--r);padding:9px 12px;font-size:11.5px;color:var(--navy3);margin-bottom:20px;border:1px solid var(--blue-mid)}
+.login-badge strong{font-weight:700;color:var(--navy)}
+
+/* ── VIEWER BANNER ── */
+.viewer-banner{background:linear-gradient(90deg,#1A3D7C,#0D2B5E);padding:7px 22px;font-size:11.5px;color:rgba(255,255,255,.8);display:flex;align-items:center;gap:8px}
+.viewer-banner strong{color:#FFD700}
+.viewer-lock-icon{font-size:13px}
+
+/* ── READ-ONLY OVERLAY ── */
+.ro-notice{background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:var(--r);padding:7px 14px;font-size:11.5px;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+
+/* ── KPI ROW ── */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:11px;margin-bottom:18px}
+.kpi{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);padding:14px 15px;position:relative;overflow:hidden;transition:box-shadow .15s}
+.kpi:hover{box-shadow:0 3px 12px rgba(13,43,94,.09)}
+.kpi-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r2) var(--r2) 0 0}
+.kpi-bar.navy{background:var(--navy)}.kpi-bar.green{background:var(--green)}.kpi-bar.orange{background:var(--orange)}.kpi-bar.red{background:var(--red)}.kpi-bar.purple{background:var(--purple)}.kpi-bar.blue{background:var(--navy4)}
+.kpi-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--txt3);margin-bottom:5px}
+.kpi-val{font-size:26px;font-weight:800;color:var(--navy);line-height:1}
+.kpi-sub{font-size:10px;color:var(--txt4);margin-top:4px}
+
+/* ── HEALTH BANNER ── */
+.health-banner{background:var(--navy);border-radius:var(--r3);padding:18px 22px;margin-bottom:18px;display:flex;align-items:stretch;gap:18px;position:relative;overflow:hidden}
+.health-banner::after{content:'';position:absolute;right:-50px;top:-50px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.025);pointer-events:none}
+.health-ring{flex-shrink:0;width:80px;height:80px;border-radius:50%;border:3px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.health-num{font-size:24px;font-weight:800;color:#fff;line-height:1}
+.health-lbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.45);margin-top:1px}
+.health-body{flex:1;min-width:0}
+.health-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
+.health-txt{font-size:12px;color:rgba(255,255,255,.78);line-height:1.65;max-width:680px}
+.health-acts{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}
+.btn-ghost{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:var(--r);padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .1s;white-space:nowrap}
+.btn-ghost:hover{background:rgba(255,255,255,.16)}
+.health-stats{display:flex;flex-direction:column;gap:7px;justify-content:center;flex-shrink:0;min-width:148px}
+.hs-item{background:rgba(255,255,255,.07);border-radius:var(--r);padding:7px 11px}
+.hs-v{font-size:16px;font-weight:800;color:#fff}
+.hs-l{font-size:9.5px;color:rgba(255,255,255,.5);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.api-row{background:var(--orange-bg);border:1px solid var(--orange-bd);border-radius:var(--r);padding:9px 13px;margin-bottom:13px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.api-txt{font-size:11.5px;color:#92400E}
+.api-inp{flex:1;min-width:200px;border:1px solid var(--orange-bd);border-radius:6px;padding:5px 10px;font-size:11.5px;font-family:monospace;background:#fff;outline:none;color:var(--txt)}
+.btn-save-key{background:var(--orange);color:#fff;border:none;border-radius:6px;padding:5px 11px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* ── CHARTS ── */
+.charts3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px}
+.chart-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);padding:16px}
+.chart-card.w2{grid-column:span 2}
+.cc-hd{margin-bottom:11px}
+.cc-title{font-size:12.5px;font-weight:700;color:var(--navy)}
+.cc-sub{font-size:10.5px;color:var(--txt3);margin-top:2px}
+.legend{display:flex;flex-wrap:wrap;gap:9px;font-size:10.5px;margin-bottom:9px}
+.legend-i{display:flex;align-items:center;gap:4px;color:var(--txt2)}
+.legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* ── CARD ── */
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:18px}
+.card-hd{padding:13px 17px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px}
+.card-title{font-size:13px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:7px}
+.card-cnt{background:var(--navy);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px}
+.card-ctrls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+
+/* ── CONTROLS ── */
+.inp-search{border:1px solid var(--border);border-radius:var(--r);padding:6px 10px;font-size:12px;font-family:inherit;color:var(--txt);background:var(--surf2);width:170px;outline:none;transition:border .12s}
+.inp-search:focus{border-color:var(--navy4);background:#fff}
+.sel{border:1px solid var(--border);border-radius:var(--r);padding:6px 10px;font-size:12px;font-family:inherit;color:var(--txt);background:var(--surf2);outline:none;cursor:pointer}
+.sel:focus{border-color:var(--navy4)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{background:var(--surf2);text-align:left;padding:8px 13px;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--txt3);border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none}
+th:hover{color:var(--navy)}
+td{padding:9px 13px;font-size:12px;border-bottom:1px solid var(--border2);color:var(--txt);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--blue-pale)}
+.exp-content{padding:13px 17px;background:var(--surf2);border-top:1px solid var(--border)}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:11px}
+.exp-f label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--txt3);display:block;margin-bottom:3px}
+.exp-f span{font-size:12px;color:var(--txt)}
+.exp-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding-top:9px;border-top:1px solid var(--border)}
+.exp-actions label{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em}
+tfoot td{font-size:12px;font-weight:700;background:var(--surf2);border-top:2px solid var(--border2)}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:600;white-space:nowrap}
+.badge.approved{background:var(--green-bg);color:#065F46;border:1px solid var(--green-bd)}
+.badge.form-filled{background:var(--orange-bg);color:#92400E;border:1px solid var(--orange-bd)}
+.badge.denied{background:var(--red-bg);color:#991B1B;border:1px solid var(--red-bd)}
+.badge.not-started{background:var(--gray-bg);color:#374151;border:1px solid var(--gray-bd)}
+.badge.pursuing{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.badge.critical{background:var(--red-bg);color:#991B1B;border:1px solid var(--red-bd)}
+.badge.high{background:var(--orange-bg);color:#92400E;border:1px solid var(--orange-bd)}
+.badge.medium{background:var(--green-bg);color:#065F46;border:1px solid var(--green-bd)}
+.badge.low{background:var(--gray-bg);color:#374151;border:1px solid var(--gray-bd)}
+.badge.resolved{background:var(--green-bg);color:#065F46;border:1px solid var(--green-bd)}
+.badge.cots{background:var(--purple-bg);color:#5B21B6;border:1px solid var(--purple-bd)}
+
+/* ── BUTTONS ── */
+.btn{border:1px solid var(--border);background:var(--surf);color:var(--txt);border-radius:var(--r);padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .1s;white-space:nowrap}
+.btn:hover{background:var(--blue-pale);border-color:var(--navy4);color:var(--navy)}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.sm-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.sm-primary:hover{background:var(--navy2)}
+.btn.sm-green{background:var(--green-bg);color:var(--green);border-color:var(--green-bd)}
+.btn.sm-red{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+
+/* ── IMPACT STATS ── */
+.impact-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px}
+.ist{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);padding:13px 15px}
+.ist-lbl{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--txt3)}
+.ist-val{font-size:22px;font-weight:800;color:var(--navy);margin-top:4px}
+.ist-note{font-size:10px;color:var(--txt4);margin-top:3px}
+
+/* ── NICHE GRID ── */
+.niche-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.niche-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);padding:15px}
+.niche-cat{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.niche-meta{font-size:10.5px;color:var(--txt3);margin-bottom:9px;display:flex;gap:12px;flex-wrap:wrap}
+.niche-vrow{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--border)}
+.niche-vrow:last-child{border-bottom:none}
+.niche-vname{font-size:12px;font-weight:500;flex:1;color:var(--txt)}
+.niche-vsel{border:1px solid var(--border);border-radius:6px;padding:3px 7px;font-size:11px;font-family:inherit;background:var(--surf2);outline:none;cursor:pointer}
+.niche-vsel:disabled{opacity:.5;cursor:default}
+
+/* ── REJECTION ── */
+.rej-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:18px}
+.rej-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r2);padding:14px 15px;display:flex;align-items:flex-start;gap:11px}
+.rej-icon{width:34px;height:34px;border-radius:var(--r);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
+.rej-body h4{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.rej-body p{font-size:11px;color:var(--txt2);line-height:1.5}
+.rej-count{font-size:20px;font-weight:800;color:var(--navy);margin-top:5px}
+.rej-count-lbl{font-size:9.5px;color:var(--txt3)}
+
+/* ── BLOCKER CARDS ── */
+.bl-item{border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:7px;border-left:3px solid var(--red)}
+.bl-item.high{border-left-color:var(--orange)}
+.bl-item.medium{border-left-color:var(--navy4)}
+.bl-item.resolved-b{opacity:.5}
+.bl-partner{font-size:13px;font-weight:700;color:var(--navy)}
+.bl-detail{font-size:11px;color:var(--txt2);margin-top:2px}
+.bl-action{font-size:10.5px;color:var(--txt3);margin-top:2px}
+.bl-row{display:flex;justify-content:space-between;align-items:flex-start;gap:9px}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:var(--surf);border-radius:var(--r3);width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal-hd{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-hd h3{font-size:14px;font-weight:700;color:var(--navy)}
+.modal-close{background:none;border:none;font-size:18px;color:var(--txt3);cursor:pointer;padding:4px;line-height:1}
+.modal-close:hover{color:var(--txt)}
+.modal-body{padding:17px 20px}
+.frow{margin-bottom:12px}
+.frow label{display:block;font-size:10.5px;font-weight:600;color:var(--txt2);margin-bottom:4px}
+.fi,.fs,.ft{width:100%;border:1px solid var(--border2);border-radius:var(--r);padding:7px 10px;font-size:12.5px;font-family:inherit;color:var(--txt);background:var(--surf2);outline:none;transition:border .12s}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--navy3);background:#fff}
+.ft{min-height:60px;resize:vertical}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-ft{padding:13px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.btn-cancel{border:1px solid var(--border);background:var(--surf);color:var(--txt2);border-radius:var(--r);padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-cancel:hover{background:var(--surf2)}
+.btn-submit{background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:7px 17px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .12s}
+.btn-submit:hover{background:var(--navy2)}
+
+/* ── TOOLTIP ── */
+.tooltip{position:relative;display:inline-flex;align-items:center}
+.tooltip .tip{display:none;position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;font-size:10px;padding:5px 8px;border-radius:6px;white-space:normal;z-index:999;line-height:1.4;max-width:220px;text-align:center}
+.tooltip:hover .tip{display:block}
+.info-icon{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--txt4);color:#fff;font-size:8.5px;font-weight:700;cursor:help;margin-left:4px}
+
+.empty{text-align:center;padding:36px;color:var(--txt3)}
+.empty p{font-size:12.5px;margin-top:5px}
+
+.info-box{border-radius:var(--r);padding:10px 14px;font-size:12px;margin-bottom:14px;display:flex;align-items:flex-start;gap:8px}
+.info-box.blue{background:var(--blue-pale);border:1px solid var(--blue-mid);color:var(--navy3)}
+.info-box.orange{background:var(--orange-bg);border:1px solid var(--orange-bd);color:#92400E}
+
+@media(max-width:1300px){.kpi-row{grid-template-columns:repeat(3,1fr)}.charts3{grid-template-columns:1fr}.chart-card.w2{grid-column:span 1}.niche-grid{grid-template-columns:1fr}.rej-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr)}.rej-grid{grid-template-columns:1fr}.impact-stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="login-logo-row">
+      <img class="login-logo" src="https://cdn.prod.website-files.com/66bd92ba405be0a023df7529/697b02c8e2bee0d5f7d6665e_cp-nav-logo.svg" alt="Consultadd" onerror="this.style.display='none'">
+      <span class="login-brand">Partnership Intelligence</span>
+    </div>
+    <div id="login-mode-admin">
+      <div class="login-title">Admin Sign In</div>
+      <div class="login-sub">Technology Partnership Tracker — Consultadd Public Services</div>
+      <div class="login-badge"><strong>Admin access</strong> allows you to update statuses, add partners, resolve blockers, and manage all dashboard data.</div>
+      <div class="login-frow"><label>Username</label><input type="text" class="login-inp" id="l-user" placeholder="Admin username" autocomplete="off"></div>
+      <div class="login-frow"><label>Password</label><input type="password" class="login-inp" id="l-pass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="login-btn" onclick="doLogin()">Sign In as Admin</button>
+      <div class="login-err" id="login-err">Incorrect username or password.</div>
+      <div class="login-viewer-link">Not the admin? <a onclick="doViewer()">Continue as Viewer (read-only)</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="app" id="app" style="display:none">
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo-wrap">
+      <img class="sb-logo" src="https://cdn.prod.website-files.com/66bd92ba405be0a023df7529/697b02c8e2bee0d5f7d6665e_cp-nav-logo.svg" alt="Consultadd" onerror="this.style.display='none'">
+      <div class="sb-brandlabel">Partnership<br>Intelligence</div>
+    </div>
+    <span id="role-pill" class="admin-pill">ADMIN</span>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-group">Main</div>
+    <div class="sb-item active" onclick="nav('overview')"><span class="ic">◈</span> Executive Overview</div>
+    <div class="sb-item" onclick="nav('rejection')"><span class="ic">◉</span> Rejection Analysis <span class="sb-badge" id="nb-rej">6</span></div>
+    <div class="sb-group">Partnership Data</div>
+    <div class="sb-item" onclick="nav('registry')"><span class="ic">☰</span> Partner Registry <span class="sb-badge" id="nb-total">—</span></div>
+    <div class="sb-item" onclick="nav('rfp')"><span class="ic">◎</span> RFP Gap Analysis</div>
+    <div class="sb-item" onclick="nav('niche')"><span class="ic">✦</span> Niche Solutions <span class="sb-badge warn">14</span></div>
+    <div class="sb-group">Actions</div>
+    <div class="sb-item" onclick="nav('blockers')"><span class="ic">⚠</span> Blockers &amp; Actions <span class="sb-badge hot" id="nb-bl">—</span></div>
+  </div>
+  <div class="sb-foot"><strong>Consultadd Public Services</strong><br>Internal Use Only · 2026<br><span id="sb-role-label">—</span></div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<div class="main">
+  <!-- VIEWER BANNER (shown only for viewers) -->
+  <div id="viewer-banner" class="viewer-banner" style="display:none">
+    <span class="viewer-lock-icon">🔒</span>
+    <strong>View-Only Mode</strong> — You are logged in as a viewer. All data is live and read-only. Contact the admin to make changes.
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="page-label" id="pg-label">Executive Overview</div>
+    </div>
+    <div class="topbar-right">
+      <div class="tb-chip">Total <strong id="tb-t">—</strong></div>
+      <div class="tb-chip g">Approved <strong id="tb-a">—</strong></div>
+      <div class="tb-chip o">In Progress <strong id="tb-p">—</strong></div>
+      <div class="tb-chip r">Blocked <strong id="tb-b">—</strong></div>
+      <div class="tb-divider"></div>
+      <div class="ts-label" id="ts">—</div>
+      <button class="btn-primary" id="btn-add-partner" onclick="openModal()">+ Add Partner</button>
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+  <!-- ═══ OVERVIEW ═══ -->
+  <section class="sec active" id="sec-overview">
+    <div class="pg-hd"><h2>Partnership Portfolio Overview</h2><p>Executive summary of Consultadd's technology partner ecosystem and business impact — 2026</p></div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-bar navy"></div><div class="kpi-lbl">Total Partners</div><div class="kpi-val" id="k-tot">—</div><div class="kpi-sub">Across all categories</div></div>
+      <div class="kpi"><div class="kpi-bar green"></div><div class="kpi-lbl">Approved &amp; Active</div><div class="kpi-val" id="k-app">—</div><div class="kpi-sub">Ready to bid today</div></div>
+      <div class="kpi"><div class="kpi-bar orange"></div><div class="kpi-lbl">Applications Pending</div><div class="kpi-val" id="k-prg">—</div><div class="kpi-sub">Awaiting approval</div></div>
+      <div class="kpi"><div class="kpi-bar red"></div><div class="kpi-lbl">Denied / Blocked</div><div class="kpi-val" id="k-blk">—</div><div class="kpi-sub">Needs leadership action</div></div>
+      <div class="kpi"><div class="kpi-bar purple"></div><div class="kpi-lbl">RFPs Missed <span class="tooltip"><span class="info-icon">i</span><span class="tip">Running total of RFPs in HubSpot Not Qualified queue where the confirmed rejection reason was a missing vendor partnership. Cross-verified against Excel tracker.</span></span></div><div class="kpi-val">315+</div><div class="kpi-sub">Confirmed partner-gap rejections</div></div>
+      <div class="kpi"><div class="kpi-bar blue"></div><div class="kpi-lbl">Pipeline Value at Risk <span class="tooltip"><span class="info-icon">i</span><span class="tip">Estimated total contract value of opportunities lost. Based on median US public-sector award values per category × missed RFP count. Not booked revenue.</span></span></div><div class="kpi-val">$48M+</div><div class="kpi-sub">Opportunity value, not booked</div></div>
+    </div>
+
+    <!-- AI Health Banner -->
+    <div class="health-banner">
+      <div class="health-ring"><div class="health-num" id="h-num">—</div><div class="health-lbl">/ 100</div></div>
+      <div class="health-body">
+        <div class="health-title">Partnership Portfolio Health Score</div>
+        <div class="health-txt" id="h-txt">Click "Generate AI Insight" to receive an AI-powered analysis of the portfolio health, what the score means for business competitiveness, and the top 2 actions leadership should prioritize this week.</div>
+        <div class="health-acts">
+          <button class="btn-ghost" onclick="getAI()">✦ Generate AI Insight</button>
+          <button class="btn-ghost" onclick="nav('blockers')">View Blockers →</button>
+          <button class="btn-ghost" onclick="nav('rfp')">RFP Gap Analysis →</button>
+        </div>
+      </div>
+      <div class="health-stats">
+        <div class="hs-item"><div class="hs-v" id="hs-crit">—</div><div class="hs-l">Critical Blockers</div></div>
+        <div class="hs-item"><div class="hs-v">2,082</div><div class="hs-l">Not Qualified RFPs</div></div>
+        <div class="hs-item"><div class="hs-v">638</div><div class="hs-l">Active Pipeline</div></div>
+      </div>
+    </div>
+    <div class="api-row" id="api-row">
+      <span class="api-txt">🔑 Anthropic API Key (for AI Insight):</span>
+      <input type="password" class="api-inp" id="api-inp" placeholder="sk-ant-api03-…">
+      <button class="btn-save-key" onclick="saveKey()">Save</button>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts3">
+      <div class="chart-card">
+        <div class="cc-hd"><div class="cc-title">Status Breakdown</div><div class="cc-sub">Portfolio composition by status</div></div>
+        <div class="legend" id="lg-donut"></div>
+        <div style="position:relative;height:200px"><canvas id="c-donut"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-hd"><div class="cc-title">Partners by Category</div><div class="cc-sub">Technology partners per domain</div></div>
+        <div style="position:relative;height:230px"><canvas id="c-bar"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="cc-hd"><div class="cc-title">Top Gaps by Missed RFPs</div><div class="cc-sub">Running total per missing partner</div></div>
+        <div style="position:relative;height:280px"><canvas id="c-hbar"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Critical Blockers Summary -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">Critical Blockers — Immediate Leadership Action Required <span class="card-cnt" id="crit-cnt">—</span></div>
+        <button class="btn" onclick="nav('blockers')">View All →</button>
+      </div>
+      <div style="padding:13px 17px" id="crit-list"></div>
+    </div>
+  </section>
+
+  <!-- ═══ REJECTION ANALYSIS ═══ -->
+  <section class="sec" id="sec-rejection">
+    <div class="pg-hd"><h2>RFP Rejection Analysis</h2><p>Root-cause breakdown of 2,082 HubSpot "Not Qualified" records — categorized and cross-verified against the partnership tracker</p></div>
+    <div class="rej-grid" id="rej-grid"></div>
+    <div class="info-box blue"><strong>Methodology:</strong> Only RFPs where the rejection reason directly matches a confirmed gap in the verified partnership tracker are counted. RFPs erroneously disqualified (team member unaware we have the partnership) are excluded from all revenue impact figures.</div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">Detailed Rejection Breakdown by Product / Platform</div>
+        <div class="card-ctrls">
+          <select class="sel" id="rej-cat-f" onchange="renderRejTable()">
+            <option value="">All Categories</option>
+            <option>Cybersecurity</option><option>ERP/HCM</option><option>Cloud/Data</option>
+            <option>ITSM/EAM/CMMS</option><option>Healthcare</option><option>Education</option>
+            <option>Municipal/GovTech</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Product / Vendor Named in RFP</th><th>Our Status</th><th>Category</th>
+          <th onclick="sortRejT('missed')">Missed RFPs ↕</th>
+          <th>Root Cause</th><th>Fix Available?</th>
+        </tr></thead><tbody id="rej-tbody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REGISTRY ═══ -->
+  <section class="sec" id="sec-registry">
+    <div class="pg-hd"><h2>Partnership Registry</h2><p>Complete searchable database — click any row to expand details. Admin can update status inline.</p></div>
+    <div id="reg-ro-notice" class="ro-notice" style="display:none">🔒 <strong>View-only mode.</strong> Only the admin can update partnership statuses.</div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">All Technology Partners <span class="card-cnt" id="reg-cnt">—</span></div>
+        <div class="card-ctrls">
+          <input type="text" class="inp-search" id="reg-q" placeholder="Search partners…" oninput="renderReg()">
+          <select class="sel" id="reg-cat" onchange="renderReg()">
+            <option value="">All Categories</option>
+            <option>Cybersecurity</option><option>ERP/HCM</option><option>Cloud/Data</option>
+            <option>ITSM/EAM</option><option>LMS/DMS/CMS</option><option>CRM</option>
+            <option>GIS</option><option>Distributors</option><option>Misc</option>
+          </select>
+          <select class="sel" id="reg-st" onchange="renderReg()">
+            <option value="">All Statuses</option>
+            <option>Approved</option><option>Form Filled</option><option>Denied</option><option>Not Started</option>
+          </select>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th onclick="sReg('name')">Partner ↕</th><th onclick="sReg('cat')">Category ↕</th>
+          <th onclick="sReg('status')">Status ↕</th><th>Notes / Blockers</th>
+          <th>Links</th><th>Owner</th><th>Actions</th>
+        </tr></thead><tbody id="reg-tbody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RFP GAP ═══ -->
+  <section class="sec" id="sec-rfp">
+    <div class="pg-hd"><h2>RFP Gap Analysis</h2><p>Quantified business impact of partnership gaps — verified from HubSpot Not Qualified queue</p></div>
+    <div class="impact-stats">
+      <div class="ist"><div class="ist-lbl">Total Missed RFPs</div><div class="ist-val">315+</div><div class="ist-note">Verified partnership-gap rejections</div></div>
+      <div class="ist"><div class="ist-lbl">Core Gap Value</div><div class="ist-val">$32M+</div><div class="ist-note">Major partner categories only</div></div>
+      <div class="ist"><div class="ist-lbl">Niche Category Value</div><div class="ist-val">$16M+</div><div class="ist-note">Emerging &amp; niche solution gaps</div></div>
+      <div class="ist" style="border-color:var(--red-bd)"><div class="ist-lbl">Total Opportunity Value</div><div class="ist-val" style="color:var(--red)">$48M+</div><div class="ist-note">Not booked revenue — opportunity value</div></div>
+    </div>
+    <div class="info-box orange"><strong>How is opportunity value calculated?</strong> — Estimated contract values using (1) median award value per RFP category in US public sector, (2) deal amounts in HubSpot where recorded, and (3) published government procurement databases for comparable contracts. This is total contract value, not guaranteed or booked revenue.</div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">Gap Analysis by Partnership Category</div>
+        <div class="card-ctrls">
+          <select class="sel" id="rfp-pf" onchange="renderRFP()">
+            <option value="">All Priorities</option>
+            <option>Critical</option><option>High</option><option>Medium</option>
+          </select>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th onclick="sRFP('category')">RFP Category ↕</th><th>Missing Partnership</th>
+          <th onclick="sRFP('missed')">Missed RFPs ↕</th>
+          <th onclick="sRFP('revenue')">Est. Opportunity Value ↕</th>
+          <th onclick="sRFP('priority')">Priority ↕</th><th>Recommended Action</th>
+        </tr></thead>
+        <tbody id="rfp-tbody"></tbody>
+        <tfoot><tr><td colspan="2">TOTAL (filtered)</td><td id="rfp-tot-r">—</td><td id="rfp-tot-v">—</td><td colspan="2"></td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NICHE ═══ -->
+  <section class="sec" id="sec-niche">
+    <div class="pg-hd"><h2>Niche Solution Tracker</h2><p>14 emerging RFP categories from the Not Qualified queue — recommended vendor partnerships to pursue</p></div>
+    <div id="niche-ro-notice" class="ro-notice" style="display:none">🔒 <strong>View-only mode.</strong> Status updates are restricted to the admin.</div>
+    <div class="info-box blue">💡 <strong>How to use:</strong> For each niche category, 4–5 best-fit vendors for the US public sector are listed. Admin can mark each vendor as "Not Started", "Pursuing", or "Approved". Changes save automatically.</div>
+    <div style="margin-bottom:13px;display:flex;align-items:center;gap:9px">
+      <button class="btn-primary" id="btn-add-niche" onclick="openNicheModal()">+ Add Category</button>
+      <span style="font-size:11.5px;color:var(--txt3)">Showing <strong id="niche-count">0</strong> categories</span>
+    </div>
+    <div class="niche-grid" id="niche-grid"></div>
+  </section>
+
+  <!-- ═══ BLOCKERS ═══ -->
+  <section class="sec" id="sec-blockers">
+    <div class="pg-hd"><h2>Blockers &amp; Action Items</h2><p>Partnerships requiring immediate leadership intervention — sorted by severity</p></div>
+    <div id="bl-ro-notice" class="ro-notice" style="display:none">🔒 <strong>View-only mode.</strong> Resolving blockers is restricted to the admin.</div>
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">Active Blockers</div>
+        <div class="card-ctrls">
+          <select class="sel" id="bl-sev" onchange="renderBl()"><option value="">All Severities</option><option>Critical</option><option>High</option><option>Medium</option></select>
+          <select class="sel" id="bl-st" onchange="renderBl()"><option value="">All Statuses</option><option value="open">Open</option><option value="resolved">Resolved</option></select>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table><thead><tr>
+          <th>Partner</th><th>Blocker Type</th><th>Details</th><th>Recommended Action</th><th>Severity</th><th>Assigned To</th><th>Status</th><th>Actions</th>
+        </tr></thead><tbody id="bl-tbody"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ADD/EDIT PARTNER MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="modal-hd"><h3 id="modal-title">Add New Partnership</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="eid">
+      <div class="frow2">
+        <div class="frow"><label>Partner Name *</label><input type="text" class="fi" id="f-name" placeholder="e.g. CrowdStrike"></div>
+        <div class="frow"><label>Category *</label><select class="fs" id="f-cat"><option>Cybersecurity</option><option>ERP/HCM</option><option>Cloud/Data</option><option>ITSM/EAM</option><option>LMS/DMS/CMS</option><option>CRM</option><option>GIS</option><option>Distributors</option><option>Misc</option></select></div>
+      </div>
+      <div class="frow2">
+        <div class="frow"><label>Status *</label><select class="fs" id="f-st"><option>Approved</option><option>Form Filled</option><option>Denied</option><option>Not Started</option></select></div>
+        <div class="frow"><label>Assigned Owner</label><input type="text" class="fi" id="f-own" placeholder="e.g. partnerships@consultadd.com"></div>
+      </div>
+      <div class="frow"><label>Notes / Blocker Details</label><textarea class="ft" id="f-notes" placeholder="Describe any blockers, conditions, or important context…"></textarea></div>
+      <div class="frow2">
+        <div class="frow"><label>Partner Portal URL</label><input type="url" class="fi" id="f-portal" placeholder="https://…"></div>
+        <div class="frow"><label>Documents URL</label><input type="url" class="fi" id="f-docs" placeholder="https://drive.google.com/…"></div>
+      </div>
+      <div class="frow"><label>Action Items</label><input type="text" class="fi" id="f-act" placeholder="e.g. Complete training, request pricing list…"></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-submit" onclick="savePart()">Save Partnership</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD NICHE MODAL -->
+<div class="overlay" id="niche-modal">
+  <div class="modal">
+    <div class="modal-hd"><h3>Add Niche Category</h3><button class="modal-close" onclick="closeNicheModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="frow"><label>Category Name *</label><input type="text" class="fi" id="nc-name" placeholder="e.g. Fleet Management Software"></div>
+      <div class="frow2">
+        <div class="frow"><label>Estimated Missed RFPs</label><input type="text" class="fi" id="nc-rfps" placeholder="e.g. 3–5"></div>
+        <div class="frow"><label>Contract Value Range</label><input type="text" class="fi" id="nc-rev" placeholder="e.g. $100K–$300K"></div>
+      </div>
+      <div class="frow"><label>Vendors (one per line: Name | Common or Niche)</label><textarea class="ft" id="nc-vendors" placeholder="Verizon Connect | Common&#10;Samsara | Common&#10;Azuga | Niche&#10;Geotab | Common" style="min-height:100px"></textarea></div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn-cancel" onclick="closeNicheModal()">Cancel</button>
+      <button class="btn-submit" onclick="saveNicheCat()">Add Category</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// AUTH — Admin credentials (change these!)
+// ══════════════════════════════════════════════
+const ADMIN_CREDS = {user:'caps_admin', pass:'Consultadd@2026'};
+let isAdmin = false;
+let isViewer = false;
+
+function doLogin(){
+  const u=document.getElementById('l-user').value.trim();
+  const p=document.getElementById('l-pass').value;
+  if(u===ADMIN_CREDS.user && p===ADMIN_CREDS.pass){
+    isAdmin=true;isViewer=false;
+    sessionStorage.setItem('caps_role','admin');
+    startApp();
+  } else {
+    const err=document.getElementById('login-err');
+    err.style.display='block';
+    err.textContent='Incorrect username or password. Contact the dashboard admin.';
+  }
+}
+function doViewer(){
+  isAdmin=false;isViewer=true;
+  sessionStorage.setItem('caps_role','viewer');
+  startApp();
+}
+function doLogout(){
+  sessionStorage.removeItem('caps_role');
+  isAdmin=false;isViewer=false;
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('l-user').value='';
+  document.getElementById('l-pass').value='';
+  document.getElementById('login-err').style.display='none';
+}
+function startApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  applyRoleUI();
+  init();
+}
+function applyRoleUI(){
+  const pill=document.getElementById('role-pill');
+  const sbLabel=document.getElementById('sb-role-label');
+  if(isAdmin){
+    pill.className='admin-pill';pill.textContent='ADMIN';
+    sbLabel.textContent='Logged in as Admin';
+    document.getElementById('viewer-banner').style.display='none';
+    document.getElementById('btn-add-partner').style.display='flex';
+    document.getElementById('btn-add-niche').style.display='flex';
+  } else {
+    pill.className='viewer-pill';pill.textContent='VIEWER';
+    sbLabel.textContent='Logged in as Viewer';
+    document.getElementById('viewer-banner').style.display='flex';
+    document.getElementById('btn-add-partner').style.display='none';
+    document.getElementById('btn-add-niche').style.display='none';
+    document.getElementById('reg-ro-notice').style.display='flex';
+    document.getElementById('niche-ro-notice').style.display='flex';
+    document.getElementById('bl-ro-notice').style.display='flex';
+    if(document.getElementById('api-row'))document.getElementById('api-row').style.display='none';
+  }
+}
+
+// Check if returning with saved session
+window.addEventListener('load',()=>{
+  const r=sessionStorage.getItem('caps_role');
+  if(r==='admin'){isAdmin=true;startApp()}
+  else if(r==='viewer'){isViewer=true;startApp()}
+});
+
+// ══════════════════════════════════════════════
+// BASE DATA
+// ══════════════════════════════════════════════
+const BASE_PARTNERS=[
+  {id:1,name:"Splunk",cat:"Cybersecurity",status:"Approved",notes:"Training required for full price list access",portal:"",docs:"https://drive.google.com/drive/folders/1TJiwqlKtZKP0-jmVn6tu6rIRMgYJaLGy",own:"partnerships@consultadd.com",act:"Complete training modules",upd:"2026-04-01"},
+  {id:2,name:"SolarWinds",cat:"Cybersecurity",status:"Approved",notes:"Active reseller",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:3,name:"Palo Alto Networks",cat:"Cybersecurity",status:"Approved",notes:"26% MSRP discount. Cannot do renewal projects at current tier.",portal:"",docs:"https://drive.google.com/drive/folders/18bBtxE12bLt4sLQuuseYpUWw02wKRjuU",own:"ashutosh.c@consultadd.com",act:"Upgrade tier to enable renewals",upd:"2026-04-01"},
+  {id:4,name:"Cisco",cat:"Cybersecurity",status:"Approved",notes:"Pricing available via portal",portal:"",docs:"https://drive.google.com/drive/folders/1_pISvv1lu1ZiPwNPLVi3Ym0FpMAnzLLS",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:5,name:"IBM",cat:"Cybersecurity",status:"Approved",notes:"Pricing list available",portal:"",docs:"",own:"satvik@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:6,name:"Microsoft",cat:"Cybersecurity",status:"Approved",notes:"Indirect reseller — AI Cloud Partner Program",portal:"",docs:"https://drive.google.com/drive/folders/1V0py0IUM_VikSSXWhQxypYdwR7K_Id2g",own:"partnerships@consultaddusa.onmicrosoft.com",act:"",upd:"2026-04-01"},
+  {id:7,name:"Fortinet",cat:"Cybersecurity",status:"Approved",notes:"Active",portal:"",docs:"",own:"mayank.g@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:8,name:"Veeam",cat:"Cybersecurity",status:"Approved",notes:"Registered Reseller & Service Provider",portal:"",docs:"https://drive.google.com/drive/folders/1mhAXiYIyMXmlpqdtqSkifNKvManVxSFK",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:9,name:"Tenable",cat:"Cybersecurity",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:10,name:"RSA",cat:"Cybersecurity",status:"Approved",notes:"Partner portal access confirmed",portal:"https://rsasecurity.my.site.com/partner/s/",docs:"",own:"publicservices@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:11,name:"Ping Identity",cat:"Cybersecurity",status:"Approved",notes:"Via TD Synnex — pricing process needs clarification",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Clarify pricing flow with TD Synnex",upd:"2026-04-01"},
+  {id:12,name:"Rubrik",cat:"Cybersecurity",status:"Approved",notes:"Pricing through partner portal",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:13,name:"InfosecIQ",cat:"Cybersecurity",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:14,name:"ConnectSecure",cat:"Cybersecurity",status:"Approved",notes:"Via Pax8",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:15,name:"WatchGuard Technologies",cat:"Cybersecurity",status:"Approved",notes:"Registered Reseller",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:16,name:"CommVault",cat:"Cybersecurity",status:"Approved",notes:"Pricing list available; discount unclear",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Clarify discount structure",upd:"2026-04-01"},
+  {id:17,name:"CrowdStrike",cat:"Cybersecurity",status:"Form Filled",notes:"BLOCKER: $2,500 license purchase required upfront to enter MSSP partner program",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Leadership approval needed — authorize $2,500 investment",upd:"2026-04-01"},
+  {id:18,name:"SentinelOne",cat:"Cybersecurity",status:"Form Filled",notes:"Application submitted, awaiting response",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up with partner team",upd:"2026-04-01"},
+  {id:19,name:"Qualys",cat:"Cybersecurity",status:"Form Filled",notes:"Meeting being arranged with partner team",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Schedule partner meeting",upd:"2026-04-01"},
+  {id:20,name:"Darktrace",cat:"Cybersecurity",status:"Form Filled",notes:"Awaiting response from partner team",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:21,name:"Arctic Wolf",cat:"Cybersecurity",status:"Form Filled",notes:"In contact with partner team",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Arrange introductory call",upd:"2026-04-01"},
+  {id:22,name:"Claroty",cat:"Cybersecurity",status:"Form Filled",notes:"OT/IoT/ICS Security — awaiting reply since July. Cyber-Physical Systems platform.",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up on July application",upd:"2026-04-01"},
+  {id:23,name:"KnowBe4",cat:"Cybersecurity",status:"Form Filled",notes:"Application in progress",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Complete application",upd:"2026-04-01"},
+  {id:24,name:"Proofpoint",cat:"Cybersecurity",status:"Form Filled",notes:"Application in progress",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Complete application",upd:"2026-04-01"},
+  {id:25,name:"NinjaOne",cat:"Cybersecurity",status:"Form Filled",notes:"Application submitted",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:26,name:"Netwrix",cat:"Cybersecurity",status:"Form Filled",notes:"Application in progress",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:27,name:"Okta",cat:"Cybersecurity",status:"Not Started",notes:"HIGH PRIORITY GAP — IAM required in nearly all enterprise and government RFPs",portal:"",docs:"",own:"",act:"Initiate partner application immediately — free to apply",upd:"2026-04-01"},
+  {id:28,name:"OneLogin",cat:"Cybersecurity",status:"Not Started",notes:"IAM gap — no action taken",portal:"",docs:"",own:"",act:"Initiate application",upd:"2026-04-01"},
+  {id:29,name:"Rapid7",cat:"Cybersecurity",status:"Not Started",notes:"HIGH PRIORITY GAP — vulnerability management RFPs",portal:"",docs:"",own:"",act:"Initiate partner application immediately",upd:"2026-04-01"},
+  {id:30,name:"Sophos",cat:"Cybersecurity",status:"Not Started",notes:"Appears in Not Qualified queue for endpoint security renewals",portal:"",docs:"",own:"",act:"Evaluate and apply for partner program",upd:"2026-04-01"},
+  {id:31,name:"Oracle",cat:"ERP/HCM",status:"Approved",notes:"Service implementation only — cannot provide licenses",portal:"",docs:"",own:"publicservices@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:32,name:"SAP",cat:"ERP/HCM",status:"Approved",notes:"Active",portal:"",docs:"",own:"ashutosh.c@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:33,name:"Microsoft Dynamics",cat:"ERP/HCM",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:34,name:"PeopleSoft",cat:"ERP/HCM",status:"Approved",notes:"Via Oracle partnership",portal:"",docs:"",own:"publicservices@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:35,name:"ADP",cat:"ERP/HCM",status:"Form Filled",notes:"Awaiting reply; pricing contact available",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up with ADP contact",upd:"2026-04-01"},
+  {id:36,name:"Workday",cat:"ERP/HCM",status:"Form Filled",notes:"Application previously rejected; resubmitted",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Strengthen partner profile; consider intermediary route",upd:"2026-04-01"},
+  {id:37,name:"Ellucian",cat:"ERP/HCM",status:"Denied",notes:"BLOCKER: Not accepting new partners — dominant in higher ed ERP market",portal:"",docs:"",own:"",act:"Monitor for re-opening; pursue teaming with existing Ellucian partners",upd:"2026-04-01"},
+  {id:38,name:"UKG / Kronos",cat:"ERP/HCM",status:"Denied",notes:"BLOCKER: Not accepting new partners",portal:"",docs:"",own:"",act:"Teaming strategy; monitor quarterly for re-opening",upd:"2026-04-01"},
+  {id:39,name:"Infor",cat:"ERP/HCM",status:"Not Started",notes:"Infor CareFor appears in healthcare and HHS RFPs",portal:"",docs:"",own:"",act:"Evaluate and initiate application",upd:"2026-04-01"},
+  {id:40,name:"AWS",cat:"Cloud/Data",status:"Approved",notes:"Via Cloudtech",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:41,name:"DataDog",cat:"Cloud/Data",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:42,name:"Sharegate",cat:"Cloud/Data",status:"Approved",notes:"Microsoft migration tool",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:43,name:"Amazee.io",cat:"Cloud/Data",status:"Approved",notes:"Drupal hosting — via sales rep",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:44,name:"ExtremeNetworks",cat:"Cloud/Data",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:45,name:"RedHat",cat:"Cloud/Data",status:"Form Filled",notes:"Partner portal access; remaining steps pending",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Complete remaining steps",upd:"2026-04-01"},
+  {id:46,name:"Dynatrace",cat:"Cloud/Data",status:"Form Filled",notes:"Application in progress",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:47,name:"Azure",cat:"Cloud/Data",status:"Not Started",notes:"CRITICAL GAP — dominant US government cloud platform. Registered via Cloudtech only — no formal CSP partnership.",portal:"",docs:"",own:"",act:"Immediate CSP registration required — free, takes 1–2 days",upd:"2026-04-01"},
+  {id:48,name:"Databricks",cat:"Cloud/Data",status:"Not Started",notes:"Registered via Cloudtech — not formalized",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Formalize partnership",upd:"2026-04-01"},
+  {id:49,name:"Snowflake",cat:"Cloud/Data",status:"Not Started",notes:"Registered via Cloudtech — not formalized",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Formalize partnership",upd:"2026-04-01"},
+  {id:50,name:"GCP",cat:"Cloud/Data",status:"Not Started",notes:"Registered via Cloudtech — not formalized",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Formalize partnership",upd:"2026-04-01"},
+  {id:51,name:"HashiCorp",cat:"Cloud/Data",status:"Not Started",notes:"No action taken",portal:"",docs:"",own:"",act:"Evaluate",upd:"2026-04-01"},
+  {id:52,name:"Informatica",cat:"Cloud/Data",status:"Not Started",notes:"No action taken",portal:"",docs:"",own:"",act:"Evaluate",upd:"2026-04-01"},
+  {id:53,name:"Matillion",cat:"Cloud/Data",status:"Not Started",notes:"No action taken",portal:"",docs:"",own:"",act:"Evaluate",upd:"2026-04-01"},
+  {id:54,name:"ServiceNow",cat:"ITSM/EAM",status:"Approved",notes:"Service partner — pricing available, no discounts yet. Trainings and webinars required.",portal:"",docs:"",own:"",act:"Complete trainings; attend webinars; review code of conduct",upd:"2026-04-01"},
+  {id:55,name:"IBM Maximo",cat:"ITSM/EAM",status:"Approved",notes:"Active",portal:"",docs:"",own:"satvik@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:56,name:"SolarWinds ITSM",cat:"ITSM/EAM",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:57,name:"Atlassian",cat:"ITSM/EAM",status:"Form Filled",notes:"Unresponsive — needs re-engagement",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Re-contact partner team via different channel",upd:"2026-04-01"},
+  {id:58,name:"Trimble",cat:"ITSM/EAM",status:"Form Filled",notes:"BLOCKER: $5,000 contract fee required to complete partnership",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Leadership approval for $5,000 fee",upd:"2026-04-01"},
+  {id:59,name:"Fiix CMMS",cat:"ITSM/EAM",status:"Form Filled",notes:"CMMS platform — application submitted",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:60,name:"Alemba",cat:"ITSM/EAM",status:"Denied",notes:"Non-responsive — denied",portal:"",docs:"",own:"",act:"Re-attempt or deprioritize",upd:"2026-04-01"},
+  {id:61,name:"Clio",cat:"LMS/DMS/CMS",status:"Approved",notes:"Active",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:62,name:"ClickUp",cat:"LMS/DMS/CMS",status:"Approved",notes:"Pricing via representative",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:63,name:"Laserfiche",cat:"LMS/DMS/CMS",status:"Form Filled",notes:"BLOCKER: $10,000 required after Year 1 of contract signing",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Leadership approval for $10,000 financial commitment",upd:"2026-04-01"},
+  {id:64,name:"Absorb LMS",cat:"LMS/DMS/CMS",status:"Form Filled",notes:"Application submitted — no response yet",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:65,name:"OpenText",cat:"LMS/DMS/CMS",status:"Denied",notes:"Application denied",portal:"",docs:"",own:"",act:"Monitor for re-opening; consider Hyland OnBase as alternative",upd:"2026-04-01"},
+  {id:66,name:"Salesforce",cat:"CRM",status:"Approved",notes:"Via KnowCloudAI — service partner",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:67,name:"HubSpot",cat:"CRM",status:"Approved",notes:"Via KnowCloudAI",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:68,name:"MS Dynamics CRM",cat:"CRM",status:"Approved",notes:"Pricing via TD Synnex",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:69,name:"Odoo",cat:"CRM",status:"Form Filled",notes:"Application pending",portal:"",docs:"",own:"publicservices@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:70,name:"ArcGIS / Esri",cat:"GIS",status:"Form Filled",notes:"Application in progress — high priority for planning and infrastructure RFPs",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Expedite application with Esri partner team",upd:"2026-04-01"},
+  {id:71,name:"CollegeSource",cat:"Misc",status:"Form Filled",notes:"Higher ed transfer credit and academic planning platform",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:72,name:"Pax8",cat:"Distributors",status:"Approved",notes:"Active distributor",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:73,name:"TD Synnex",cat:"Distributors",status:"Approved",notes:"IBM, CISCO via TD Synnex",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:74,name:"CDW",cat:"Distributors",status:"Approved",notes:"Marketplace reseller — registration only",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:75,name:"SHI International",cat:"Distributors",status:"Approved",notes:"Marketplace reseller — registration only",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:76,name:"Ingram Micro",cat:"Distributors",status:"Form Filled",notes:"Application submitted — no response",portal:"",docs:"",own:"partnerships@consultadd.com",act:"Follow up",upd:"2026-04-01"},
+  {id:77,name:"Nuologix",cat:"Distributors",status:"Approved",notes:"For ManageEngine products",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:78,name:"ArrowSphere",cat:"Distributors",status:"Approved",notes:"Purchase through marketplace",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+  {id:79,name:"Carahsoft",cat:"Distributors",status:"Approved",notes:"Purchase through marketplace",portal:"",docs:"",own:"partnerships@consultadd.com",act:"",upd:"2026-04-01"},
+];
+
+const RFP_DATA=[
+  {category:"CrowdStrike / EDR-XDR Security",partner:"CrowdStrike (Form Filled — $2.5K blocker)",missed:22,revenue:3960000,priority:"Critical",action:"Authorize $2,500 MSSP investment — leadership decision needed"},
+  {category:"Workday / ADP HCM & HRIS",partner:"Workday (Rejected), ADP (Pending)",missed:18,revenue:5760000,priority:"Critical",action:"Re-engage Workday with stronger profile; expedite ADP"},
+  {category:"Ellucian Higher Education ERP",partner:"Ellucian (DENIED — not accepting)",missed:14,revenue:6300000,priority:"Critical",action:"Pursue teaming with existing Ellucian partners"},
+  {category:"Azure Cloud Platform",partner:"Azure (Not Started — critical gap)",missed:8,revenue:4000000,priority:"Critical",action:"Immediate CSP registration — zero-cost, high urgency"},
+  {category:"UKG / Kronos Workforce Mgmt",partner:"UKG/Kronos (DENIED — not accepting)",missed:12,revenue:3360000,priority:"Critical",action:"Teaming strategy; monitor quarterly for re-opening"},
+  {category:"Laserfiche Document Mgmt",partner:"Laserfiche (Form Filled — $10K Year 1)",missed:16,revenue:2400000,priority:"High",action:"Leadership approval for $10K financial commitment"},
+  {category:"ArcGIS / GIS Platform",partner:"ArcGIS/Esri (Form Filled — pending)",missed:14,revenue:2660000,priority:"High",action:"Expedite application with Esri partner team"},
+  {category:"Okta / OneLogin IAM",partner:"Okta & OneLogin (Not Started)",missed:10,revenue:2200000,priority:"High",action:"Initiate both applications this week — zero cost"},
+  {category:"Rapid7 Vulnerability Management",partner:"Rapid7 (Not Started)",missed:8,revenue:1280000,priority:"High",action:"Initiate partner application"},
+  {category:"Infor / Healthcare ERP",partner:"Infor (No partnership)",missed:6,revenue:3000000,priority:"High",action:"Evaluate Infor partner program and apply"},
+  {category:"Accela Permitting & Licensing",partner:"Accela (No partnership)",missed:5,revenue:1900000,priority:"High",action:"Apply for Accela government partner program"},
+  {category:"Epic Healthcare EHR",partner:"Epic (No partnership)",missed:4,revenue:3200000,priority:"High",action:"Pursue Epic partner/implementation program — limited slots"},
+  {category:"CMMS / Maintenance Mgmt",partner:"Various (IBM Maximo partial; Fiix pending)",missed:12,revenue:2160000,priority:"High",action:"Expedite Fiix; evaluate additional CMMS vendors"},
+  {category:"Public Safety / CAD Systems",partner:"No public safety software partner",missed:6,revenue:2400000,priority:"High",action:"Evaluate Tyler New World, CentralSquare partnerships"},
+  {category:"CCaaS / Unified Communications",partner:"No CCaaS partner",missed:5,revenue:1750000,priority:"Medium",action:"Evaluate Genesys, NICE CXone, Twilio partnerships"},
+  {category:"Municipal Finance / Budget",partner:"No municipal finance partner",missed:6,revenue:1440000,priority:"Medium",action:"Apply for Tyler Munis, Edmunds GovTech, OpenGov"},
+  {category:"OT / SCADA / ICS Security",partner:"Claroty (Form Filled — pending)",missed:5,revenue:2000000,priority:"Medium",action:"Expedite Claroty application; evaluate Dragos"},
+  {category:"Digital Signature Solutions",partner:"DocuSign/Adobe (No partnership)",missed:8,revenue:1200000,priority:"Medium",action:"Initiate DocuSign government partner application"},
+  {category:"Niche Categories (14 combined)",partner:"Multiple niche vendors — see Niche tab",missed:180,revenue:16000000,priority:"High",action:"Execute niche partnership strategy per Niche tab"},
+];
+
+const BLOCKERS=[
+  {id:1,partner:"CrowdStrike",type:"Financial",detail:"$2,500 license required to enter MSSP partner program",action:"Authorize investment — leadership approval needed",sev:"Critical",status:"open",own:"Leadership"},
+  {id:2,partner:"Ellucian",type:"Denied",detail:"Not accepting new partners — higher ed ERP market leader",action:"Re-apply when open; pursue teaming arrangements now",sev:"Critical",status:"open",own:"BD Team"},
+  {id:3,partner:"UKG / Kronos",type:"Denied",detail:"Not accepting new partners — WFM market leader",action:"Teaming strategy; monitor quarterly for re-opening",sev:"Critical",status:"open",own:"BD Team"},
+  {id:4,partner:"Azure",type:"Not Started",detail:"No action taken — Azure is dominant US government cloud",action:"Immediate CSP registration (free, takes 1–2 days)",sev:"Critical",status:"open",own:"Cloud Team"},
+  {id:5,partner:"Laserfiche",type:"Financial",detail:"$10,000 required after Year 1 of signing contract",action:"Leadership approval for financial commitment",sev:"High",status:"open",own:"Leadership"},
+  {id:6,partner:"Trimble",type:"Financial",detail:"$5,000 contract fee to complete partnership",action:"Leadership approval for $5,000 fee",sev:"High",status:"open",own:"Leadership"},
+  {id:7,partner:"Workday",type:"Rejected",detail:"Application previously rejected; resubmitted",action:"Strengthen partner profile; consider Workday Alliance intermediary",sev:"High",status:"open",own:"BD Team"},
+  {id:8,partner:"Okta",type:"Not Started",detail:"No action taken — IAM required in most enterprise RFPs",action:"Initiate partner application this week (free)",sev:"High",status:"open",own:"Partnerships"},
+  {id:9,partner:"Rapid7",type:"Not Started",detail:"No action taken — appears in vulnerability mgmt RFPs",action:"Initiate partner application",sev:"Medium",status:"open",own:"Partnerships"},
+  {id:10,partner:"Atlassian",type:"Unresponsive",detail:"Unresponsive since application submission",action:"Re-contact via different channel or escalate",sev:"Medium",status:"open",own:"Partnerships"},
+  {id:11,partner:"Epic",type:"Not Started",detail:"Epic EHR appears in healthcare RFPs; no partnership explored",action:"Research Epic App Orchard partner program",sev:"High",status:"open",own:"BD Team"},
+];
+
+const REJ_DETAIL=[
+  {vendor:"CrowdStrike",pstatus:"Form Filled",rcat:"Cybersecurity",missed:22,cause:"Missing Partnership",fix:"Yes — $2,500 investment",catf:"Cybersecurity"},
+  {vendor:"Darktrace (renewals)",pstatus:"Form Filled",rcat:"Cybersecurity",missed:8,cause:"Missing Partnership",fix:"In progress",catf:"Cybersecurity"},
+  {vendor:"Sophos (renewals)",pstatus:"Not Started",rcat:"Cybersecurity",missed:6,cause:"No Partnership",fix:"Easy — apply now",catf:"Cybersecurity"},
+  {vendor:"Malwarebytes",pstatus:"Not Started",rcat:"Cybersecurity",missed:5,cause:"No Partnership",fix:"Easy — apply now",catf:"Cybersecurity"},
+  {vendor:"Barracuda (email security)",pstatus:"Not Started",rcat:"Cybersecurity",missed:4,cause:"No Partnership",fix:"Easy — apply now",catf:"Cybersecurity"},
+  {vendor:"Kiteworks (secure file share)",pstatus:"Not Started",rcat:"Cybersecurity",missed:4,cause:"No Partnership",fix:"Easy — apply now",catf:"Cybersecurity"},
+  {vendor:"Symantec / Broadcom DLP",pstatus:"Not Started",rcat:"Cybersecurity",missed:3,cause:"No Partnership",fix:"Evaluate — Broadcom required",catf:"Cybersecurity"},
+  {vendor:"Ellucian (Higher Ed ERP)",pstatus:"Denied",rcat:"ERP/HCM",missed:14,cause:"Denied — Not Accepting",fix:"Teaming only",catf:"ERP/HCM"},
+  {vendor:"Workday (HCM)",pstatus:"Form Filled",rcat:"ERP/HCM",missed:12,cause:"Application Rejected",fix:"Re-application underway",catf:"ERP/HCM"},
+  {vendor:"UKG / Kronos (WFM)",pstatus:"Denied",rcat:"ERP/HCM",missed:12,cause:"Denied — Not Accepting",fix:"Teaming only",catf:"ERP/HCM"},
+  {vendor:"ADP (Payroll/HCM)",pstatus:"Form Filled",rcat:"ERP/HCM",missed:6,cause:"Pending Application",fix:"In progress",catf:"ERP/HCM"},
+  {vendor:"Infor CareFor (Healthcare ERP)",pstatus:"Not Started",rcat:"ERP/HCM",missed:6,cause:"No Partnership",fix:"Evaluate now",catf:"ERP/HCM"},
+  {vendor:"Azure Cloud",pstatus:"Not Started",rcat:"Cloud/Data",missed:8,cause:"No Partnership — Critical",fix:"Free CSP reg — do today",catf:"Cloud/Data"},
+  {vendor:"Laserfiche (DMS)",pstatus:"Form Filled",rcat:"LMS/DMS/CMS",missed:16,cause:"Financial Blocker ($10K)",fix:"Leadership approval needed",catf:"LMS/DMS/CMS"},
+  {vendor:"ArcGIS / Esri (GIS)",pstatus:"Form Filled",rcat:"GIS",missed:14,cause:"Pending Application",fix:"In progress — expedite",catf:"Municipal/GovTech"},
+  {vendor:"Accela (Permitting)",pstatus:"Not Started",rcat:"Municipal/GovTech",missed:5,cause:"No Partnership",fix:"Easy — apply now",catf:"Municipal/GovTech"},
+  {vendor:"Tyler Technologies (EnerGov/Munis)",pstatus:"Not Started",rcat:"Municipal/GovTech",missed:8,cause:"No Partnership",fix:"Easy — apply now",catf:"Municipal/GovTech"},
+  {vendor:"Okta / OneLogin (IAM)",pstatus:"Not Started",rcat:"Cybersecurity",missed:10,cause:"No Partnership",fix:"Free — apply immediately",catf:"Cybersecurity"},
+  {vendor:"Rapid7",pstatus:"Not Started",rcat:"Cybersecurity",missed:8,cause:"No Partnership",fix:"Easy — apply now",catf:"Cybersecurity"},
+  {vendor:"Epic (EHR)",pstatus:"Not Started",rcat:"Healthcare",missed:4,cause:"No Partnership",fix:"Complex — Epic is selective",catf:"Healthcare"},
+  {vendor:"Electronic Health Records (EHR)",pstatus:"Not Started",rcat:"Healthcare",missed:6,cause:"Scope / No COTS Partner",fix:"Evaluate Epic, Meditech, athenahealth",catf:"Healthcare"},
+  {vendor:"AI Clinical Documentation Tools",pstatus:"Not Started",rcat:"Healthcare",missed:4,cause:"Niche COTS Product",fix:"Evaluate Nuance/Microsoft DAX",catf:"Healthcare"},
+  {vendor:"Ellucian Recruit / Slate (Enrollment)",pstatus:"Not Started",rcat:"Education",missed:5,cause:"No Partnership",fix:"Pursue Slate (Technolutions)",catf:"Education"},
+  {vendor:"PEIMS / State Ed Data Systems",pstatus:"Not Started",rcat:"Education",missed:3,cause:"COTS Required",fix:"Highly niche — evaluate",catf:"Education"},
+  {vendor:"Grants Management (Amplifund, Fluxx)",pstatus:"Not Started",rcat:"Municipal/GovTech",missed:6,cause:"No Partnership",fix:"Open partner programs",catf:"Municipal/GovTech"},
+  {vendor:"CCaaS (Genesys, NICE CXone)",pstatus:"Not Started",rcat:"Other",missed:5,cause:"No Partnership",fix:"Evaluate Genesys, NICE CXone",catf:"Other"},
+  {vendor:"SCADA / OT Security (Claroty, Dragos)",pstatus:"Form Filled",rcat:"Cybersecurity",missed:5,cause:"Pending Application",fix:"Expedite Claroty; add Dragos",catf:"Cybersecurity"},
+  {vendor:"Public Safety / CAD (Tyler, CentralSquare)",pstatus:"Not Started",rcat:"Other",missed:6,cause:"No Partnership",fix:"Evaluate Tyler New World, CentralSquare",catf:"Other"},
+  {vendor:"CMMS (Fiix, IBM Maximo — gaps)",pstatus:"Form Filled",rcat:"ITSM/EAM/CMMS",missed:12,cause:"Partial Partnership",fix:"Expedite Fiix; expand IBM Maximo scope",catf:"ITSM/EAM/CMMS"},
+];
+
+const REJ_CATEGORIES=[
+  {icon:"🔒",color:"#FEF2F2",label:"Missing / Denied Partnership",desc:"RFP required a specific vendor we are not partnered with",count:142,badge:"critical"},
+  {icon:"📦",color:"#F5F3FF",label:"COTS Product Required",desc:"RFP mandated a specific commercial off-the-shelf software with no substitute",count:52,badge:"cots"},
+  {icon:"🏗️",color:"#FFF7ED",label:"Capability / Certification Gap",desc:"We lacked certified consultants or the required service capability",count:38,badge:"capability"},
+  {icon:"🌐",color:"#F0F9FF",label:"Geographic / Eligibility",desc:"State/local preference, small business set-asides, or licensing restrictions",count:31,badge:"pursuing"},
+  {icon:"📋",color:"#ECFDF5",label:"Scope Mismatch",desc:"RFP scope did not align with Consultadd's service model",count:47,badge:"medium"},
+  {icon:"⏱️",color:"#FFFBEB",label:"Bandwidth / Resource Constraint",desc:"Insufficient internal resources to respond in time or execute the contract",count:28,badge:"high"},
+];
+
+const NICHE_DEFAULT=[
+  {category:"Career Exploration & Planning Software",rfps:"3–5",revenue:"$80K–$200K",vendors:[{name:"Xello",type:"Niche",status:"Not Started"},{name:"Naviance (PowerSchool)",type:"Common",status:"Not Started"},{name:"Kuder",type:"Niche",status:"Not Started"},{name:"Career Coach (Emsi Burning Glass)",type:"Niche",status:"Not Started"},{name:"Handshake",type:"Common",status:"Not Started"}]},
+  {category:"Student Transition Planning Software",rfps:"3–4",revenue:"$100K–$250K",vendors:[{name:"Goalview",type:"Niche",status:"Not Started"},{name:"Frontline IEP",type:"Common",status:"Not Started"},{name:"Infinite Campus",type:"Common",status:"Not Started"},{name:"iGradPlus",type:"Niche",status:"Not Started"},{name:"Thrively",type:"Niche",status:"Not Started"}]},
+  {category:"Groundwater Data Management Platform",rfps:"2–4",revenue:"$150K–$500K",vendors:[{name:"AQUARIUS (Aquatic Informatics)",type:"Niche",status:"Not Started"},{name:"ArcGIS Water Utilities",type:"Common",status:"Not Started"},{name:"Hach WIMS",type:"Niche",status:"Not Started"},{name:"HydroGeoAnalyst",type:"Niche",status:"Not Started"},{name:"WaterTrax",type:"Niche",status:"Not Started"}]},
+  {category:"AI & Agentic AI Governance Platform",rfps:"4–6",revenue:"$200K–$600K",vendors:[{name:"IBM OpenScale",type:"Common",status:"Not Started"},{name:"Microsoft Azure Responsible AI",type:"Common",status:"Not Started"},{name:"Credo AI",type:"Niche",status:"Not Started"},{name:"Arthur AI",type:"Niche",status:"Not Started"},{name:"Fiddler AI",type:"Niche",status:"Not Started"}]},
+  {category:"Community Planning & Development Software",rfps:"5–8",revenue:"$200K–$800K",vendors:[{name:"Accela",type:"Common",status:"Not Started"},{name:"OpenGov / Cartegraph",type:"Common",status:"Not Started"},{name:"Granicus",type:"Common",status:"Not Started"},{name:"Tyler EnerGov",type:"Common",status:"Not Started"},{name:"CivicPlus",type:"Niche",status:"Not Started"}]},
+  {category:"Grants Management Solution Platform",rfps:"5–7",revenue:"$150K–$500K",vendors:[{name:"Fluxx",type:"Common",status:"Not Started"},{name:"Amplifund",type:"Niche",status:"Not Started"},{name:"Submittable",type:"Common",status:"Not Started"},{name:"SmartSimple GovGrants",type:"Niche",status:"Not Started"},{name:"e-Grants",type:"Niche",status:"Not Started"}]},
+  {category:"Education Abroad / Study Abroad Platform",rfps:"2–3",revenue:"$80K–$200K",vendors:[{name:"Terra Dotta",type:"Niche",status:"Not Started"},{name:"Vialto Partners",type:"Niche",status:"Not Started"},{name:"GoAbroad Platform",type:"Niche",status:"Not Started"},{name:"Horizons Atlas (Ellucian)",type:"Niche",status:"Not Started"},{name:"My Study Abroad",type:"Niche",status:"Not Started"}]},
+  {category:"Time & Attendance / Workforce Scheduling",rfps:"10–15",revenue:"$150K–$600K",vendors:[{name:"UKG (Kronos)",type:"Common",status:"Not Started"},{name:"ADP Workforce Now",type:"Common",status:"Not Started"},{name:"Ceridian Dayforce",type:"Common",status:"Not Started"},{name:"Deputy",type:"Niche",status:"Not Started"},{name:"Attendance on Demand",type:"Niche",status:"Not Started"}]},
+  {category:"Data Tracking & Case Management",rfps:"8–12",revenue:"$200K–$1M",vendors:[{name:"Salesforce Gov Cloud",type:"Common",status:"Not Started"},{name:"Microsoft Dynamics 365",type:"Common",status:"Not Started"},{name:"Apricot by Bonterra",type:"Niche",status:"Not Started"},{name:"Caspio",type:"Niche",status:"Not Started"},{name:"Eccovia ClientTrack",type:"Niche",status:"Not Started"}]},
+  {category:"EHR Privacy Monitoring Software",rfps:"3–5",revenue:"$200K–$600K",vendors:[{name:"Imprivata PAM",type:"Common",status:"Not Started"},{name:"FairWarning (Aris Global)",type:"Niche",status:"Not Started"},{name:"Protenus",type:"Niche",status:"Not Started"},{name:"Seceon aiSIEM",type:"Niche",status:"Not Started"},{name:"Iatros Health",type:"Niche",status:"Not Started"}]},
+  {category:"Web-Based Digital Signature Solution",rfps:"6–10",revenue:"$50K–$300K",vendors:[{name:"DocuSign",type:"Common",status:"Not Started"},{name:"Adobe Acrobat Sign",type:"Common",status:"Not Started"},{name:"Zoho Sign",type:"Common",status:"Not Started"},{name:"PandaDoc",type:"Common",status:"Not Started"},{name:"SignNow (airSlate)",type:"Niche",status:"Not Started"}]},
+  {category:"AI Platform for Permit & Plan Review",rfps:"4–6",revenue:"$250K–$800K",vendors:[{name:"ePlan (EnerGov)",type:"Common",status:"Not Started"},{name:"Bluebeam Revu",type:"Common",status:"Not Started"},{name:"ProjectDox (Avolve)",type:"Niche",status:"Not Started"},{name:"OpenGov Permitting",type:"Niche",status:"Not Started"},{name:"Symbium",type:"Niche",status:"Not Started"}]},
+  {category:"Student Engagement & Co-Curricular Platforms",rfps:"5–8",revenue:"$100K–$350K",vendors:[{name:"Anthology (Campus Labs)",type:"Common",status:"Not Started"},{name:"Presence",type:"Niche",status:"Not Started"},{name:"Suitable",type:"Niche",status:"Not Started"},{name:"Symplicity CSM",type:"Niche",status:"Not Started"},{name:"EAB Navigate",type:"Niche",status:"Not Started"}]},
+  {category:"New Student Engagement / Onboarding",rfps:"3–5",revenue:"$80K–$200K",vendors:[{name:"Technolutions Slate",type:"Common",status:"Not Started"},{name:"Mongoose Harmony",type:"Niche",status:"Not Started"},{name:"Civitas Learning",type:"Niche",status:"Not Started"},{name:"EAB Navigate",type:"Niche",status:"Not Started"},{name:"Ellucian Recruit",type:"Niche",status:"Not Started"}]},
+];
+
+// ══════════════════════════════════════════════
+// STORAGE
+// ══════════════════════════════════════════════
+const SK={parts:'caps_parts_v4',bl:'caps_bl_v3',niche:'caps_niche_v3',key:'caps_key_v2',health:'caps_health_v2'};
+async function sget(k){try{const r=await window.storage.get(k);if(r&&r.value)return JSON.parse(r.value)}catch(e){try{const v=localStorage.getItem(k);if(v)return JSON.parse(v)}catch(e2){}}return null}
+async function sset(k,v){const s=JSON.stringify(v);try{await window.storage.set(k,s)}catch(e){try{localStorage.setItem(k,s)}catch(e2){}}updateTS()}
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let parts=[],bls=[],niche=[],apiKey='';
+let regSort={col:'name',dir:'asc'},rfpSort={col:'missed',dir:'desc'},rejSort={col:'missed',dir:'desc'};
+let expRow=null,charts={};
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+async function init(){
+  parts=await sget(SK.parts)||BASE_PARTNERS;
+  bls=await sget(SK.bl)||BLOCKERS;
+  niche=await sget(SK.niche)||NICHE_DEFAULT;
+  apiKey=await sget(SK.key)||'';
+  if(apiKey)document.getElementById('api-row').style.display='none';
+  refresh();
+  const h=await sget(SK.health);
+  if(h){document.getElementById('h-num').textContent=h.score;document.getElementById('h-txt').textContent=h.text}
+  else document.getElementById('h-num').textContent=computeScore();
+}
+function refresh(){
+  updateTopbar();updateKPIs();renderCharts();
+  renderReg();renderRFP();renderNiche();renderBl();renderCritBl();renderRejGrid();renderRejTable();
+  updateTS();
+}
+
+// ══════════════════════════════════════════════
+// COMPUTED
+// ══════════════════════════════════════════════
+function core(){return parts.filter(p=>p.cat!=='Distributors')}
+function counts(){const c=core();return{tot:c.length,app:c.filter(p=>p.status==='Approved').length,prg:c.filter(p=>p.status==='Form Filled').length,den:c.filter(p=>p.status==='Denied').length,ns:c.filter(p=>p.status==='Not Started').length}}
+function computeScore(){const c=counts();return Math.min(100,Math.max(0,Math.round((c.app/c.tot)*65-(c.den/c.tot)*15-(c.ns/c.tot)*8+35)))}
+
+// ══════════════════════════════════════════════
+// TOPBAR & KPIs
+// ══════════════════════════════════════════════
+function updateTopbar(){
+  const c=counts();
+  document.getElementById('tb-t').textContent=c.tot;
+  document.getElementById('tb-a').textContent=c.app;
+  document.getElementById('tb-p').textContent=c.prg;
+  document.getElementById('tb-b').textContent=c.den;
+  document.getElementById('nb-total').textContent=c.tot;
+  const ob=bls.filter(b=>b.status==='open').length;
+  document.getElementById('nb-bl').textContent=ob;
+  document.getElementById('hs-crit').textContent=bls.filter(b=>b.sev==='Critical'&&b.status==='open').length;
+}
+function updateTS(){
+  const now=new Date();
+  document.getElementById('ts').textContent='Updated '+now.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+}
+function updateKPIs(){
+  const c=counts();
+  document.getElementById('k-tot').textContent=c.tot;
+  document.getElementById('k-app').textContent=c.app;
+  document.getElementById('k-prg').textContent=c.prg;
+  document.getElementById('k-blk').textContent=c.den;
+  document.getElementById('reg-cnt').textContent=parts.length;
+}
+
+// ══════════════════════════════════════════════
+// CHARTS
+// ══════════════════════════════════════════════
+function renderCharts(){
+  const c=counts();
+  if(charts.donut)charts.donut.destroy();
+  const dC=['#057A50','#C96A00','#B91C1C','#6B7280'];
+  const dL=['Approved','Form Filled','Denied','Not Started'];
+  const dD=[c.app,c.prg,c.den,c.ns];
+  document.getElementById('lg-donut').innerHTML=dL.map((l,i)=>`<span class="legend-i"><span class="legend-dot" style="background:${dC[i]}"></span>${l} <strong>${dD[i]}</strong></span>`).join('');
+  charts.donut=new Chart(document.getElementById('c-donut'),{
+    type:'doughnut',
+    data:{labels:dL,datasets:[{data:dD,backgroundColor:dC,borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'64%',plugins:{legend:{display:false}}}
+  });
+  if(charts.bar)charts.bar.destroy();
+  const cats=['Cybersecurity','ERP/HCM','Cloud/Data','ITSM/EAM','LMS/DMS/CMS','CRM','GIS','Distributors','Misc'];
+  charts.bar=new Chart(document.getElementById('c-bar'),{
+    type:'bar',
+    data:{labels:cats,datasets:[
+      {label:'Approved',data:cats.map(cat=>parts.filter(p=>p.cat===cat&&p.status==='Approved').length),backgroundColor:'#057A50',borderRadius:3,stack:'s'},
+      {label:'Pending',data:cats.map(cat=>parts.filter(p=>p.cat===cat&&p.status==='Form Filled').length),backgroundColor:'#C96A00',borderRadius:3,stack:'s'},
+      {label:'Denied',data:cats.map(cat=>parts.filter(p=>p.cat===cat&&p.status==='Denied').length),backgroundColor:'#B91C1C',borderRadius:3,stack:'s'},
+      {label:'Not Started',data:cats.map(cat=>parts.filter(p=>p.cat===cat&&p.status==='Not Started').length),backgroundColor:'#9CA3AF',borderRadius:3,stack:'s'},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:9},padding:6,boxWidth:10}}},scales:{y:{beginAtZero:true,ticks:{stepSize:5,font:{size:9}},grid:{color:'#EEF3FB'},stacked:true},x:{ticks:{font:{size:9},maxRotation:40},grid:{display:false},stacked:true}}}
+  });
+  if(charts.hbar)charts.hbar.destroy();
+  const hL=['CrowdStrike','Laserfiche','Workday/ADP','Ellucian','UKG/Kronos','ArcGIS','Okta/OneLogin','CMMS/Fiix','Azure','Rapid7'];
+  const hV=[22,16,18,14,12,14,10,12,8,8];
+  charts.hbar=new Chart(document.getElementById('c-hbar'),{
+    type:'bar',
+    data:{labels:hL,datasets:[{label:'Missed RFPs',data:hV,backgroundColor:hV.map((v,i)=>i<5?'#B91C1C':'#C96A00'),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{font:{size:9}},grid:{color:'#EEF3FB'}},y:{ticks:{font:{size:9}},grid:{display:false}}}}
+  });
+}
+
+// ══════════════════════════════════════════════
+// BADGES
+// ══════════════════════════════════════════════
+function sb(s){const m={'Approved':'approved','Form Filled':'form-filled','Denied':'denied','Not Started':'not-started','Pursuing':'pursuing'};return`<span class="badge ${m[s]||'not-started'}">${s}</span>`}
+function sevB(s){return`<span class="badge ${(s||'').toLowerCase()}">${s}</span>`}
+
+// ══════════════════════════════════════════════
+// REGISTRY
+// ══════════════════════════════════════════════
+function renderReg(){
+  const q=(document.getElementById('reg-q').value||'').toLowerCase();
+  const cat=document.getElementById('reg-cat').value;
+  const st=document.getElementById('reg-st').value;
+  let d=parts.filter(p=>(!q||p.name.toLowerCase().includes(q)||(p.notes||'').toLowerCase().includes(q))&&(!cat||p.cat===cat)&&(!st||p.status===st));
+  d=[...d].sort((a,b)=>{const va=String(a[regSort.col]||''),vb=String(b[regSort.col]||'');return regSort.dir==='asc'?va.localeCompare(vb):vb.localeCompare(va)});
+  const tb=document.getElementById('reg-tbody');
+  if(!d.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty"><p>No partnerships match your filters.</p></div></td></tr>`;return}
+  tb.innerHTML=d.map(p=>`
+    <tr id="pr-${p.id}" onclick="expP(${p.id})" style="cursor:pointer">
+      <td><strong>${p.name}</strong>${p.notes&&(p.notes.includes('BLOCKER')||p.notes.includes('CRITICAL'))?` <span class="badge denied" style="font-size:9px;margin-left:5px">${p.notes.includes('CRITICAL')?'CRITICAL':'BLOCKER'}</span>`:''}</td>
+      <td><span style="font-size:11px;color:var(--txt3)">${p.cat}</span></td>
+      <td>${sb(p.status)}</td>
+      <td style="max-width:190px;font-size:11.5px;color:${p.notes&&(p.notes.includes('BLOCKER')||p.notes.includes('CRITICAL'))?'var(--red)':'var(--txt2)'}">${(p.notes||'').substring(0,70)}${p.notes&&p.notes.length>70?'…':''}</td>
+      <td>${p.portal?`<a href="${p.portal}" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;color:var(--navy4)">↗ Portal</a>`:'<span style="color:var(--txt4);font-size:11px">—</span>'} ${p.docs?`<a href="${p.docs}" target="_blank" onclick="event.stopPropagation()" style="font-size:11px;color:var(--navy4);margin-left:5px">↗ Docs</a>`:''}</td>
+      <td style="font-size:10.5px;color:var(--txt3)">${p.own||'—'}</td>
+      <td onclick="event.stopPropagation()">${isAdmin?`<button class="btn" onclick="editP(${p.id})">Edit</button>`:'<span style="font-size:10.5px;color:var(--txt4)">—</span>'}</td>
+    </tr>
+    <tr id="pe-${p.id}" style="display:none">
+      <td colspan="7">
+        <div class="exp-content">
+          <div class="exp-grid">
+            <div class="exp-f"><label>Full Notes</label><span>${p.notes||'—'}</span></div>
+            <div class="exp-f"><label>Action Items</label><span>${p.act||'—'}</span></div>
+            <div class="exp-f"><label>Last Updated</label><span>${p.upd||'—'}</span></div>
+          </div>
+          ${isAdmin?`<div class="exp-actions"><label>Quick Status:</label>${['Approved','Form Filled','Denied','Not Started'].map(s=>`<button class="btn${p.status===s?' sm-primary':''}" onclick="qStatus(${p.id},'${s}')">  ${s}</button>`).join('')}</div>`:'<div style="font-size:11px;color:var(--txt3);padding-top:8px;border-top:1px solid var(--border)">🔒 Status updates are restricted to admin.</div>'}
+        </div>
+      </td>
+    </tr>`).join('');
+}
+function sReg(col){regSort.dir=regSort.col===col&&regSort.dir==='asc'?'desc':'asc';regSort.col=col;renderReg()}
+function expP(id){
+  const row=document.getElementById('pe-'+id);
+  if(expRow&&expRow!==id){const o=document.getElementById('pe-'+expRow);if(o)o.style.display='none'}
+  row.style.display=row.style.display==='none'?'table-row':'none';
+  expRow=row.style.display!=='none'?id:null;
+}
+async function qStatus(id,st){
+  if(!isAdmin)return;
+  const p=parts.find(x=>x.id===id);
+  if(!p)return;
+  p.status=st;p.upd=new Date().toISOString().split('T')[0];
+  await sset(SK.parts,parts);
+  updateTopbar();updateKPIs();renderCharts();renderReg();renderCritBl();
+}
+
+// ══════════════════════════════════════════════
+// RFP IMPACT
+// ══════════════════════════════════════════════
+function renderRFP(){
+  const pf=document.getElementById('rfp-pf').value;
+  let d=RFP_DATA.filter(r=>!pf||r.priority===pf);
+  d=[...d].sort((a,b)=>{const va=a[rfpSort.col],vb=b[rfpSort.col];return typeof va==='number'?(rfpSort.dir==='asc'?va-vb:vb-va):(rfpSort.dir==='asc'?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va)))});
+  document.getElementById('rfp-tbody').innerHTML=d.map(r=>`
+    <tr>
+      <td><strong>${r.category}</strong></td>
+      <td style="font-size:11.5px;color:var(--txt2)">${r.partner}</td>
+      <td style="font-size:14px;font-weight:700;color:var(--navy)">${r.missed}</td>
+      <td style="font-size:13px;font-weight:700;color:var(--red)">$${(r.revenue/1000000).toFixed(2)}M</td>
+      <td>${sevB(r.priority)}</td>
+      <td style="font-size:11.5px;color:var(--txt2)">${r.action}</td>
+    </tr>`).join('');
+  const tr=d.reduce((s,r)=>s+r.missed,0),tv=d.reduce((s,r)=>s+r.revenue,0);
+  document.getElementById('rfp-tot-r').textContent=tr+'+';
+  document.getElementById('rfp-tot-v').textContent='$'+(tv/1000000).toFixed(1)+'M+';
+}
+function sRFP(col){rfpSort.dir=rfpSort.col===col&&rfpSort.dir==='asc'?'desc':'asc';rfpSort.col=col;renderRFP()}
+
+// ══════════════════════════════════════════════
+// REJECTION
+// ══════════════════════════════════════════════
+function renderRejGrid(){
+  document.getElementById('rej-grid').innerHTML=REJ_CATEGORIES.map(r=>`
+    <div class="rej-card">
+      <div class="rej-icon" style="background:${r.color}">${r.icon}</div>
+      <div class="rej-body">
+        <h4>${r.label}</h4>
+        <p>${r.desc}</p>
+        <div class="rej-count">${r.count}<span class="rej-count-lbl"> deals</span> ${sevB(r.badge)}</div>
+      </div>
+    </div>`).join('');
+}
+function renderRejTable(){
+  const cf=document.getElementById('rej-cat-f').value;
+  let d=REJ_DETAIL.filter(r=>!cf||r.catf===cf);
+  d=[...d].sort((a,b)=>rejSort.dir==='asc'?a.missed-b.missed:b.missed-a.missed);
+  document.getElementById('rej-tbody').innerHTML=d.map(r=>`
+    <tr>
+      <td><strong>${r.vendor}</strong></td>
+      <td>${sb(r.pstatus)}</td>
+      <td style="font-size:11px;color:var(--txt3)">${r.rcat}</td>
+      <td style="font-weight:700;color:var(--navy)">${r.missed}</td>
+      <td><span class="badge ${r.cause.includes('Missing')||r.cause.includes('No Partnership')?'denied':r.cause.includes('Denied')?'denied':r.cause.includes('COTS')||r.cause.includes('Niche')?'cots':r.cause.includes('Pending')?'form-filled':'medium'}">${r.cause}</span></td>
+      <td style="font-size:11.5px;color:${r.fix.includes('Easy')||r.fix.includes('free')||r.fix.includes('Free')?'var(--green)':'var(--txt2)'}">${r.fix}</td>
+    </tr>`).join('');
+}
+function sortRejT(col){rejSort.dir=rejSort.col===col&&rejSort.dir==='asc'?'desc':'asc';rejSort.col=col;renderRejTable()}
+
+// ══════════════════════════════════════════════
+// NICHE
+// ══════════════════════════════════════════════
+function renderNiche(){
+  document.getElementById('niche-count').textContent=niche.length;
+  document.getElementById('niche-grid').innerHTML=niche.map((cat,ci)=>`
+    <div class="niche-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:3px">
+        <div class="niche-cat">${cat.category}</div>
+        ${isAdmin?`<button class="btn sm-red" style="font-size:9.5px;padding:2px 7px" onclick="removeNiche(${ci})">Remove</button>`:''}
+      </div>
+      <div class="niche-meta">
+        <span>Est. Missed RFPs: <strong>${cat.rfps}</strong></span>
+        <span>Contract Range: <strong>${cat.revenue}</strong></span>
+      </div>
+      ${cat.vendors.map((v,vi)=>`
+        <div class="niche-vrow">
+          <div class="niche-vname">${v.name}</div>
+          <div style="min-width:52px"><span class="badge ${v.type==='Common'?'approved':'pursuing'}" style="font-size:9px">${v.type}</span></div>
+          <select class="niche-vsel" onchange="updateNV(${ci},${vi},this.value)" ${!isAdmin?'disabled':''}>
+            <option value="Not Started" ${(v.status||'Not Started')==='Not Started'?'selected':''}>Not Started</option>
+            <option value="Pursuing" ${(v.status||'')==='Pursuing'?'selected':''}>Pursuing</option>
+            <option value="Approved" ${(v.status||'')==='Approved'?'selected':''}>Approved</option>
+          </select>
+        </div>`).join('')}
+    </div>`).join('');
+}
+async function updateNV(ci,vi,val){
+  if(!isAdmin)return;
+  niche[ci].vendors[vi].status=val;
+  await sset(SK.niche,niche);
+}
+async function removeNiche(ci){
+  if(!isAdmin||!confirm('Remove this niche category?'))return;
+  niche.splice(ci,1);
+  await sset(SK.niche,niche);renderNiche();
+}
+
+// ══════════════════════════════════════════════
+// BLOCKERS
+// ══════════════════════════════════════════════
+function renderBl(){
+  const sf=document.getElementById('bl-sev').value;
+  const stf=document.getElementById('bl-st').value;
+  let d=bls.filter(b=>(!sf||b.sev===sf)&&(!stf||b.status===stf));
+  document.getElementById('bl-tbody').innerHTML=d.map(b=>`
+    <tr style="opacity:${b.status==='resolved'?.55:1}">
+      <td><strong>${b.partner}</strong></td>
+      <td><span class="badge ${b.type==='Financial'?'form-filled':b.type==='Denied'?'denied':'not-started'}">${b.type}</span></td>
+      <td style="font-size:11.5px;color:var(--txt2);max-width:170px">${b.detail}</td>
+      <td style="font-size:11.5px">${b.action}</td>
+      <td>${sevB(b.sev)}</td>
+      <td style="font-size:11px;color:var(--txt3)">${b.own||'—'}</td>
+      <td>${b.status==='resolved'?'<span class="badge resolved">Resolved</span>':'<span class="badge form-filled">Open</span>'}</td>
+      <td>${isAdmin?(b.status!=='resolved'?`<button class="btn sm-green" onclick="resolveBl(${b.id})">✓ Resolve</button>`:`<button class="btn" onclick="reopenBl(${b.id})">Reopen</button>`):'<span style="font-size:10.5px;color:var(--txt4)">—</span>'}</td>
+    </tr>`).join('');
+}
+function renderCritBl(){
+  const crits=bls.filter(b=>b.sev==='Critical'&&b.status==='open');
+  document.getElementById('crit-cnt').textContent=crits.length;
+  document.getElementById('crit-list').innerHTML=crits.map(b=>`
+    <div class="bl-item"><div class="bl-row">
+      <div>
+        <div class="bl-partner">${b.partner} <span class="badge critical" style="font-size:9px">${b.type}</span></div>
+        <div class="bl-detail">${b.detail}</div>
+        <div class="bl-action">→ ${b.action}</div>
+      </div>
+      ${isAdmin?`<button class="btn sm-green" style="flex-shrink:0" onclick="resolveBl(${b.id})">✓ Resolve</button>`:''}
+    </div></div>`).join('')||'<div style="color:var(--txt3);font-size:12px;padding:6px 0">No critical blockers currently open. ✓</div>';
+}
+async function resolveBl(id){
+  if(!isAdmin)return;
+  const b=bls.find(x=>x.id===id);
+  if(b){b.status='resolved';await sset(SK.bl,bls);renderBl();renderCritBl();updateTopbar()}
+}
+async function reopenBl(id){
+  if(!isAdmin)return;
+  const b=bls.find(x=>x.id===id);
+  if(b){b.status='open';await sset(SK.bl,bls);renderBl();renderCritBl();updateTopbar()}
+}
+
+// ══════════════════════════════════════════════
+// MODALS — PARTNER (admin only)
+// ══════════════════════════════════════════════
+function openModal(id=null){
+  if(!isAdmin)return;
+  document.getElementById('eid').value=id||'';
+  if(id){
+    const p=parts.find(x=>x.id===id);
+    document.getElementById('modal-title').textContent='Edit Partnership';
+    document.getElementById('f-name').value=p.name;
+    document.getElementById('f-cat').value=p.cat;
+    document.getElementById('f-st').value=p.status;
+    document.getElementById('f-own').value=p.own||'';
+    document.getElementById('f-notes').value=p.notes||'';
+    document.getElementById('f-portal').value=p.portal||'';
+    document.getElementById('f-docs').value=p.docs||'';
+    document.getElementById('f-act').value=p.act||'';
+  } else {
+    document.getElementById('modal-title').textContent='Add New Partnership';
+    ['f-name','f-own','f-notes','f-portal','f-docs','f-act'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('f-cat').value='Cybersecurity';
+    document.getElementById('f-st').value='Not Started';
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function editP(id){if(isAdmin)openModal(id)}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+async function savePart(){
+  if(!isAdmin)return;
+  const eid=document.getElementById('eid').value;
+  const d={
+    name:document.getElementById('f-name').value.trim(),
+    cat:document.getElementById('f-cat').value,
+    status:document.getElementById('f-st').value,
+    own:document.getElementById('f-own').value.trim(),
+    notes:document.getElementById('f-notes').value.trim(),
+    portal:document.getElementById('f-portal').value.trim(),
+    docs:document.getElementById('f-docs').value.trim(),
+    act:document.getElementById('f-act').value.trim(),
+    upd:new Date().toISOString().split('T')[0]
+  };
+  if(!d.name){alert('Partner name is required');return}
+  if(eid){const idx=parts.findIndex(p=>p.id==eid);if(idx!==-1)parts[idx]={...parts[idx],...d}}
+  else{d.id=Date.now();parts.push(d)}
+  await sset(SK.parts,parts);
+  closeModal();refresh();
+}
+
+// ══════════════════════════════════════════════
+// MODALS — NICHE (admin only)
+// ══════════════════════════════════════════════
+function openNicheModal(){
+  if(!isAdmin)return;
+  document.getElementById('nc-name').value='';
+  document.getElementById('nc-rfps').value='';
+  document.getElementById('nc-rev').value='';
+  document.getElementById('nc-vendors').value='';
+  document.getElementById('niche-modal').classList.add('open');
+}
+function closeNicheModal(){document.getElementById('niche-modal').classList.remove('open')}
+async function saveNicheCat(){
+  if(!isAdmin)return;
+  const name=document.getElementById('nc-name').value.trim();
+  if(!name){alert('Category name required');return}
+  const rfps=document.getElementById('nc-rfps').value.trim()||'TBD';
+  const revenue=document.getElementById('nc-rev').value.trim()||'TBD';
+  const lines=document.getElementById('nc-vendors').value.trim().split('\n').filter(Boolean);
+  const vendors=lines.map(l=>{const p=l.split('|');return{name:p[0].trim(),type:(p[1]||'Niche').trim(),status:'Not Started'}});
+  if(!vendors.length){alert('Add at least one vendor');return}
+  niche.push({category:name,rfps,revenue,vendors});
+  await sset(SK.niche,niche);
+  closeNicheModal();renderNiche();
+}
+
+// ══════════════════════════════════════════════
+// API KEY & AI INSIGHT (admin only)
+// ══════════════════════════════════════════════
+async function saveKey(){
+  if(!isAdmin)return;
+  const k=document.getElementById('api-inp').value.trim();
+  if(!k)return;
+  apiKey=k;
+  await sset(SK.key,k);
+  document.getElementById('api-row').style.display='none';
+}
+async function getAI(){
+  const score=computeScore();
+  document.getElementById('h-num').textContent=score;
+  const c=counts();const ob=bls.filter(b=>b.status==='open').length;
+  if(!apiKey){
+    document.getElementById('api-row').style.display='flex';
+    document.getElementById('h-txt').textContent='Please enter your Anthropic API key above to generate AI insights.';
+    return;
+  }
+  document.getElementById('h-txt').textContent='Generating AI analysis…';
+  const prompt=`You are a technology partnerships director at Consultadd Public Services, a US government IT solutions firm. Portfolio: ${c.tot} partners, ${c.app} approved (${Math.round(c.app/c.tot*100)}%), ${c.prg} in progress, ${c.den} denied, ${c.ns} not started. Open blockers: ${ob}, ${bls.filter(b=>b.sev==='Critical'&&b.status==='open').length} critical. Estimated pipeline at risk: $48M+. Health score: ${score}/100. Write exactly 2–3 sentences: sentence 1 states what the ${score}/100 score means for business competitiveness. Sentences 2–3 name the top 2 specific actions leadership must take this week, with dollar impact. Be direct and specific. No preamble.`;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await r.json();
+    const text=data.content&&data.content[0]?data.content[0].text:'Could not generate insight. Please check your API key.';
+    document.getElementById('h-txt').textContent=text;
+    await sset(SK.health,{score,text});
+  }catch(e){
+    document.getElementById('h-txt').textContent='Error connecting to AI service. Verify your API key and try again.';
+  }
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+const pgLabels={overview:'Executive Overview',rejection:'Rejection Analysis',registry:'Partnership Registry',rfp:'RFP Gap Analysis',niche:'Niche Solution Tracker',blockers:'Blockers & Action Items'};
+function nav(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active')});
+  document.getElementById('pg-label').textContent=pgLabels[id]||id;
+}
+</script>
+</body>
+</html>
